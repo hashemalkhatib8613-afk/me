@@ -14,7 +14,7 @@
     <h2>❤️ Hiii Memmmaa ❤️</h2>
 
     <div class="form-group">
-      <input type="text" id="dateInput" onfocus="(this.type='date')"  required>
+      <input type="text" id="dateInput" onfocus="(this.type='date')" required>
       <label>Choose the day when our story began</label>
     </div>
 
@@ -26,18 +26,17 @@
   </div>
 
   <script>
-    document.body.style.opacity = 0;
-    window.onload = () => {
+    document.addEventListener("DOMContentLoaded", () => {
+      document.body.style.opacity = 0;
       document.body.style.transition = "opacity 1s ease";
       document.body.style.opacity = 1;
-    };
- const GOOGLE_FORM_URL =
-      "https://docs.google.com/forms/d/e/1FAIpQLScWQl8D7WM5dbuPLN3XQVMb2DM30sRjaypkvQ9SvsW8iyfjdw/formResponse";
+    });
 
-    // Make logging async and wait for it
+    const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScWQl8D7WM5dbuPLN3XQVMb2DM30sRjaypkvQ9SvsW8iyfjdw/formResponse";
+
     async function logLogin(eventType, selectedDate) {
       const formData = new FormData();
-      formData.append("entry.1195270967", eventType); 
+      formData.append("entry.1195270967", eventType);
       formData.append("entry.1733478229", selectedDate);
 
       try {
@@ -51,11 +50,20 @@
       }
     }
 
-    async function login() {
-      const selectedDate = document.getElementById("secretDate").value;
-      const correctDate = "2025-06-12";
-      const input = document.getElementById("dateInput").value;
+    async function login(event) {
+      event.preventDefault(); // prevent form submission
+      const selectedDateInput = document.getElementById("dateInput");
+      const inputInput = document.getElementById("dateInput");
       const error = document.getElementById("error");
+
+      if (!selectedDateInput || !inputInput || !error) {
+        console.error("Missing required input elements!");
+        return false;
+      }
+
+      const selectedDate = selectedDateInput.value;
+      const input = inputInput.value;
+      const correctDate = "2025-06-12";
 
       if (input === correctDate) {
         await logLogin("login_success", selectedDate);
@@ -65,7 +73,10 @@
         await logLogin("login_failed", selectedDate);
         error.classList.add("show");
       }
+
+      return false;
     }
+
   </script>
 
 </body>
