@@ -15,18 +15,23 @@
 
     <div class="form-group">
       <input type="text" id="dateInput" onfocus="(this.type='date')"  required>
-      <label>Choose the day when our story began</label>
+      <label>Choose the day when our story began, the first time me and you ever crossed paths.</label>
     </div>
 
     <button onclick="login()">Unlock</button>
 
     <div id="error" class="error-message">
-      That’s not our date… try again 💔
+      Not yet… try the day that started everything 💭
     </div>
   </div>
 
- <script>
-    const GOOGLE_FORM_URL =
+  <script>
+    document.body.style.opacity = 0;
+    window.onload = () => {
+      document.body.style.transition = "opacity 1s ease";
+      document.body.style.opacity = 1;
+    };
+ const GOOGLE_FORM_URL =
       "https://docs.google.com/forms/d/e/1FAIpQLScWQl8D7WM5dbuPLN3XQVMb2DM30sRjaypkvQ9SvsW8iyfjdw/formResponse";
 
     // Make logging async and wait for it
@@ -46,28 +51,19 @@
       }
     }
 
-    // Make login async
-    async function login(event) {
-      event.preventDefault();
-
+    async function login() {
       const selectedDate = document.getElementById("secretDate").value;
       const correctDate = "2025-06-12";
+      const input = document.getElementById("dateInput").value;
+      const error = document.getElementById("error");
 
-      if (selectedDate === correctDate) {
+      if (input === correctDate) {
         await logLogin("login_success", selectedDate);
-
         sessionStorage.setItem("authenticated", "true");
-
-        // small delay for extra reliability
-        setTimeout(() => {
-          window.location.href = "kinderEgg.html";
-        }, 200);
-
+        window.location.href = "kinderEgg.html";
       } else {
         await logLogin("login_failed", selectedDate);
-
-        document.getElementById("error").innerText =
-          "Not yet… try the day that started everything 💭";
+        error.classList.add("show");
       }
     }
   </script>
