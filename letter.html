@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Letter</title>
+<link rel="stylesheet" href="style.css">
+
+<style>
+/* Letter Specific Styling */
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg,#0f0f14,#1c1c26,#0f0f14);
+  font-family: 'Poppins', sans-serif;
+  color: white;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Background Image Layer */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("egg-1.png") no-repeat center;
+  background-size: 500px;   /* adjust size here */
+  opacity: 0.8;            /* VERY IMPORTANT for classy effect */
+  pointer-events: none;
+  z-index: 0;
+}
+
+
+.letter-wrapper {
+  max-width: 750px;
+  padding: 70px 60px;
+  border-radius: 25px;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(212,175,55,0.25);
+  box-shadow: 0 0 80px rgba(212,175,55,0.15);
+  animation: fadeUp 1.5s ease forwards;
+  position: relative;
+  z-index: 1;
+}
+
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 40px;
+  letter-spacing: 3px;
+  margin-bottom: 40px;
+  color: #d4af37;
+  position: relative;
+}
+
+.title::after {
+  content: "";
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #d4af37, transparent);
+  display: block;
+  margin-top: 15px;
+}
+
+.text-block {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  line-height: 1.9;
+  margin-bottom: 28px;
+  color: #f5f5f5;
+  letter-spacing: 0.5px;
+}
+
+.surprise-section {
+  margin-top: 40px;
+  padding: 25px;
+  border-left: 3px solid #d4af37;
+  background: rgba(212,175,55,0.05);
+  border-radius: 12px;
+}
+
+.signature {
+  margin-top: 60px;
+  font-size: 22px;
+  font-style: italic;
+  text-align: right;
+  color: #e8c873;
+  letter-spacing: 1px;
+}
+
+.logout-btn {
+  margin-top: 50px;
+  padding: 10px 25px;
+  border-radius: 30px;
+  border: 1px solid #d4af37;
+  background: transparent;
+  color: #d4af37;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+.logout-btn:hover {
+  background: #d4af37;
+  color: #0f0f14;
+  box-shadow: 0 0 25px rgba(212,175,55,0.6);
+}
+
+@keyframes fadeUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+</style>
+
+</head>
+<body>
+
+<script>
+if(sessionStorage.getItem("authenticated") !== "true"){
+  window.location.href = "index.html";
+}
+</script>
+
+<div class="letter-wrapper">
+
+  <div class="title">My Dearest Mema</div>
+
+  <div class="text-block">
+    I’ve been trying to find the right words for a long time, and I’m not sure they’ll ever be enough,
+    but I need you to know how deeply I appreciate you and everything you’ve been to me.
+  </div>
+
+  <div class="text-block">
+    You hold a place in my heart that no one else ever could.
+    Being with you felt natural, warm, and real in a way I’ve never known before.
+    Those days we shared together were truly beautiful — full of laughter, comfort,
+    and a quiet happiness that I still carry with me.
+  </div>
+
+  <div class="text-block">
+    I genuinely wanted my life to continue with you right beside me.
+    I imagined the future with you not as a dream, but as something
+    I believed in with my whole heart.
+  </div>
+
+  <div class="text-block">
+    No matter where life takes us now, please know that what we had mattered.
+    You mattered. And you always will.
+    If there ever comes a time when circumstances change,
+    I hope you’ll remember me and ask about me.
+  </div>
+
+  <div class="surprise-section">
+    I know I may not be able to give you the little "Kinder Surprise Egg" I once did anymore.
+    So I wanted the one in the background to be one last gentle surprise —
+    something simple, sincere, and made with love.
+    Not to replace what was, but to honor it.
+  </div>
+
+  <div class="signature">
+    With all the love and appreciation my heart can hold,<br>
+    Hashem.
+  </div>
+
+  <button class="logout-btn" onclick="logout()">Logout</button>
+
+</div>
+
+<script>
+document.body.style.opacity = 0;
+window.onload = () => {
+  document.body.style.transition = "opacity 1s ease";
+  document.body.style.opacity = 1;
+};
+
+function logout(){
+  sessionStorage.clear();
+  window.location.href = "index.html";
+}
+</script>
+
+</body>
+</html>

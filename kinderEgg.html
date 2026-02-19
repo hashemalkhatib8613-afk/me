@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kinder Surprise</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<script>
+if(sessionStorage.getItem("authenticated") !== "true"){
+  window.location.href = "index.html";
+}
+</script>
+
+<div class="container center">
+  <h3>My dear Memaa, click the egg 5 times to reveal your surprise 🥚</h3>
+    <img id="egg" src="egg-1.png" alt="Kinder Egg">
+</div>
+<script>
+    // Block access if not logged in
+    if (sessionStorage.getItem("authenticated") !== "true") {
+      window.location.href = "index.html";
+    }
+
+    const egg = document.getElementById('egg');
+    let clicks = 0;
+    const totalClicks = 5;
+
+    // Array of cracked egg images (replace with real cracked images if you have them)
+    const crackedEggs = [
+      "egg-1.png",
+      "egg-2.png",
+      "egg-3.png",
+      "egg-4.png",
+      "egg-5.png",
+
+    ];
+
+    egg.addEventListener('click', () => {
+      clicks++;
+      if (clicks < totalClicks) {
+        // Change egg image
+        egg.src = crackedEggs[clicks] || crackedEggs[0];
+      } else {
+        // Final click -> go to letter page
+        window.location.href = "letter.html";
+      }
+    });
+  </script>
+
+</body>
+</html>

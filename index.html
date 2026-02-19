@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>For You 🤍</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <h1>For You 🤍</h1>
+
+    <div class="form-group">
+      <input type="text" id="dateInput" onfocus="(this.type='date')"  required>
+      <label>Enter Our Special Date</label>
+    </div>
+
+    <button onclick="login()">Unlock</button>
+
+    <div id="error" class="error-message">
+      That’s not our date… try again 💔
+    </div>
+  </div>
+
+  <script>
+    document.body.style.opacity = 0;
+    window.onload = () => {
+      document.body.style.transition = "opacity 1s ease";
+      document.body.style.opacity = 1;
+    };
+
+    function login() {
+      const correctDate = "2025-06-12";
+      const input = document.getElementById("dateInput").value;
+      const error = document.getElementById("error");
+
+      if (input === correctDate) {
+        sessionStorage.setItem("authenticated", "true");
+        window.location.href = "kinderEgg.html";
+      } else {
+        error.classList.add("show");
+      }
+    }
+  </script>
+
+</body>
+
+</html>
