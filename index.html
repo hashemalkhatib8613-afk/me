@@ -5,7 +5,107 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>For You 🤍</title>
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Playfair+Display&display=swap" rel="stylesheet">
+
+  <style>
+    /* --- Basic Reset --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0f0f14, #1c1c26, #0f0f14);
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 50px 40px;
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      text-align: center;
+      max-width: 400px;
+      box-shadow: 0 0 60px rgba(212, 175, 55, 0.2);
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 30px;
+      color: #d4af37;
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="date"] {
+      width: 100%;
+      padding: 12px 15px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      transition: background 0.3s;
+    }
+
+    .form-group input:focus {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .form-group label {
+      position: absolute;
+      top: -20px;
+      left: 10px;
+      font-size: 14px;
+      color: #d4af37;
+    }
+
+    button {
+      padding: 12px 25px;
+      border-radius: 30px;
+      border: 1px solid #d4af37;
+      background: transparent;
+      color: #d4af37;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.4s;
+    }
+
+    button:hover {
+      background: #d4af37;
+      color: #0f0f14;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+    }
+
+    .error-message {
+      display: none;
+      margin-top: 15px;
+      color: #ff6b6b;
+      font-size: 14px;
+      font-style: italic;
+      transition: opacity 0.5s;
+    }
+
+    .error-message.show {
+      display: block;
+      opacity: 1;
+    }
+  </style>
 </head>
 
 <body>
@@ -14,7 +114,7 @@
     <h2>❤️ Hiii Memmmaa ❤️</h2>
 
     <div class="form-group">
-      <input type="text" id="dateInput" onfocus="(this.type='date')" required>
+      <input type="text" id="dateInput" placeholder="YYYY-MM-DD" onfocus="(this.type='date')" required>
       <label>Choose the day when our story began</label>
     </div>
 
@@ -26,18 +126,19 @@
   </div>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      document.body.style.opacity = 0;
-      document.body.style.transition = "opacity 1s ease";
+    // --- Fade-in page ---
+    window.addEventListener("load", () => {
       document.body.style.opacity = 1;
     });
 
+    // --- Google Form URL ---
     const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScWQl8D7WM5dbuPLN3XQVMb2DM30sRjaypkvQ9SvsW8iyfjdw/formResponse";
 
-    async function logLogin(eventType, selectedDate) {
+    // --- Logging function ---
+    async function logLogin(eventType, dateValue) {
       const formData = new FormData();
       formData.append("entry.1195270967", eventType);
-      formData.append("entry.1733478229", selectedDate);
+      formData.append("entry.1733478229", dateValue);
 
       try {
         await fetch(GOOGLE_FORM_URL, {
@@ -45,38 +146,30 @@
           mode: "no-cors",
           body: formData
         });
-      } catch (error) {
-        console.error("Logging failed:", error);
+      } catch (err) {
+        console.error("Logging failed:", err);
       }
     }
 
-    async function login(event) {
-      event.preventDefault(); // prevent form submission
-      const selectedDateInput = document.getElementById("dateInput");
-      const inputInput = document.getElementById("dateInput");
+    // --- Login / Unlock ---
+    async function login() {
+      const input = document.getElementById("dateInput").value;
       const error = document.getElementById("error");
-
-      if (!selectedDateInput || !inputInput || !error) {
-        console.error("Missing required input elements!");
-        return false;
-      }
-
-      const selectedDate = selectedDateInput.value;
-      const input = inputInput.value;
       const correctDate = "2025-06-12";
 
+      if (!input) return; // nothing entered
+
       if (input === correctDate) {
-        await logLogin("login_success", selectedDate);
+        await logLogin("login_success", input);
         sessionStorage.setItem("authenticated", "true");
         window.location.href = "kinderEgg.html";
       } else {
-        await logLogin("login_failed", selectedDate);
+        await logLogin("login_failed", input);
         error.classList.add("show");
+        // Optional: hide error after 3s
+        setTimeout(() => error.classList.remove("show"), 3000);
       }
-
-      return false;
     }
-
   </script>
 
 </body>
